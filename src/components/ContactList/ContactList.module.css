@@ -1,0 +1,13 @@
+.List {
+  padding: 0%;
+  list-style: none;
+}
+.List li {
+  margin-bottom: 10px;
+}
+.Span {
+  margin-left: 30px;
+}
+.ButtonDelete {
+  margin-left: 30px;
+}
