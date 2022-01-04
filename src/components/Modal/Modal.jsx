@@ -1,38 +1,38 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import s from "./Modal.module.css";
 
-class Modal extends Component {
-  static propTypes = {
-    largeImageURL: PropTypes.string,
-    tags: PropTypes.string,
-    onClick: PropTypes.func,
-  };
+function Modal({ largeImageURL, alt, onClick }) {
+  useEffect(() => {
+    window.addEventListener("keydown", cleanEventListener);
+    return () => {
+      window.removeEventListener("keydown", cleanEventListener);
+    };
+  });
 
-  componentDidMount() {
-    window.addEventListener("keydown", this.cleanEventListener);
-  }
-  componentWillUnmount() {
-    window.removeEventListener("keydown", this.cleanEventListener);
-  }
-
-  cleanEventListener = (e) => {
+  const cleanEventListener = (e) => {
     if (e.code === "Escape") {
-      this.props.onClick();
+      onClick();
     }
   };
-  render() {
-    const { onClick, largeImageURL, alt } = this.props;
+
+  const backdrop  = (e) => {
+    if (e.target === e.currentTarget) {
+      onClick();
+    }
+  };
+  
     return (
-      <div className={s.Overlay} onClick={onClick}>
+      // <div className={s.Overlay} onClick={onClick }>
+       <div className={s.Overlay} onClick={backdrop }>
         <div className={s.Modal}>
           <img src={largeImageURL} alt={alt} />
         </div>
       </div>
     );
   }
-}
-export default Modal;
+
+  export default Modal;
 
 Modal.propTypes = {
   largeImageURL: PropTypes.string.isRequired,
